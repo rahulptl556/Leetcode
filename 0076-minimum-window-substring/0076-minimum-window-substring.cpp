@@ -13,19 +13,13 @@ public:
         for(char &ch : t){
             tmap[ch]++;
         }
-        
-        if(reqCount > n){
-            return "";
-        }
-        
         while(j<n){
-            
-            
-            if(tmap[s[j]] > 0){
-                reqCount--;
+            if(tmap.find(s[j]) != tmap.end()){
+                if(tmap[s[j]] > 0){
+                    reqCount--;
+                }
+                tmap[s[j]]--;
             }
-            tmap[s[j]]--;
-            
             
             while(reqCount == 0){
                 length = j-i+1;
@@ -35,13 +29,16 @@ public:
                 }
                 
                 // Removing i
-                tmap[s[i]]++;
-                if(tmap[s[i]] > 0){
-                    reqCount++;
+                if(tmap.find(s[i]) != tmap.end()){
+                    tmap[s[i]]++;
+                    if(tmap[s[i]] > 0){
+                        reqCount++;
+                    }
                 }
                 i++;
             }
-            j++;
+         j++;
+               
         }
         return mini == INT_MAX? "" : s.substr(sIndex,mini);
     }
