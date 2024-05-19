@@ -8,12 +8,15 @@ public:
         int s = 0;
         int e = col*row-1;
         
+        
         while(s<=e){
             int mid = s+(e-s)/2;
-            if(target == matrix[mid/col][mid%col]){
+            int element = matrix[mid/col][mid%col];
+            
+            if(target == element){
                 return true;
             }
-            else if(target < matrix[mid/col][mid%col]){
+            else if(target < element){
                 e = mid-1;
             }
             else{
