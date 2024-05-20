@@ -10,10 +10,10 @@ public:
                 count++;
                 candidate = arr[i];
             }
-            else if(count>0 && arr[i] == candidate){
+            else if(arr[i] == candidate){
                 count++;
             }
-            else if(count>0 && arr[i] != candidate){
+            else if(arr[i] != candidate){
                 count--;
             }
         }
