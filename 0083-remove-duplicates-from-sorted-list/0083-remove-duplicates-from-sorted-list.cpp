@@ -20,7 +20,8 @@ public:
         while(curr){
             if(prev -> val == curr -> val){
                 prev -> next = curr -> next;
-                curr = curr -> next;
+                delete curr;
+                curr = prev -> next;
             }
             else{
                 prev = prev -> next;
