@@ -1,42 +1,47 @@
 class Solution {
 public:
 
-    bool subsetSum(vector<int>& nums, int target, int n, vector<vector<int>>& dp){
-
-        
-        if(n == 0 && target != 0){
-            return false;
-        }
-        else if(target == 0){
+    bool subset(vector<int>& nums, int n, int target, vector<vector<int>> &dp){
+        // base condn
+        if(target == 0){
             return true;
         }
-
-        else if( dp[n][target] != -1){
-            return  dp[n][target];
+        if(n == 0 & target!=0){
+            return false;
         }
-
-        else if(nums[n-1] <= target){
-            return dp[n][target] = subsetSum(nums,target-nums[n-1],n-1,dp) || subsetSum(nums,target,n-1,dp);
+        
+        if(dp[n][target] != -1){
+            return dp[n][target];
         }
+        
+        
+        if(nums[n-1] <= target){
+             // If the element is smaller than the target implement choice diagram
+             return dp[n][target] = subset(nums,n-1,target-nums[n-1],dp) || subset(nums,n-1,target,dp);
+        }
+       
         else{
-            return  dp[n][target] = subsetSum(nums,target,n-1,dp);
+            //Else if larger -> dont include
+            return dp[n][target] = subset(nums,n-1,target,dp);
         }
-
+        
     }
 
     bool canPartition(vector<int>& nums) {
         int n = nums.size();
-        int sum = 0;
+        int total = 0;
         for(int i=0; i<n; i++){
-            sum += nums[i];
+            total += nums[i];
         }
-        if(sum % 2 != 0){
+        int target = (total/2);
+        
+        vector<vector<int>> dp(nums.size() + 1, vector<int>(target + 1, -1)); 
+        
+        if(total%2 != 0){
             return false;
         }
-        int target = sum/2;
-        
-        vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
-        
-        return subsetSum(nums,target,n,dp);
+        else{
+            return subset(nums,n,total/2,dp);
+        }
     }
 };
