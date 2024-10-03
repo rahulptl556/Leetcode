@@ -2,29 +2,26 @@ class Solution {
 public:
 
     bool subset(vector<int>& nums, int n, int target, vector<vector<int>> &dp){
-        // base condn
-        if(target == 0){
-            return true;
+        for(int i=0; i<n+1; i++){
+            for(int j=0; j<target+1; j++){
+             //Initialization
+                if(j == 0){
+                    dp[i][j] = true;
+                }
+                else if(i == 0 && j!=0){
+                    dp[i][j] = false;
+                }
+                
+                else if(nums[i-1] <= j){
+                    dp[i][j] = dp[i-1][j-nums[i-1]] || dp[i-1][j];
+                }
+                else{
+                    dp[i][j] =  dp[i-1][j];
+                }
+           
+            }
         }
-        if(n == 0 & target!=0){
-            return false;
-        }
-        
-        if(dp[n][target] != -1){
-            return dp[n][target];
-        }
-        
-        
-        if(nums[n-1] <= target){
-             // If the element is smaller than the target implement choice diagram
-             return dp[n][target] = subset(nums,n-1,target-nums[n-1],dp) || subset(nums,n-1,target,dp);
-        }
-       
-        else{
-            //Else if larger -> dont include
-            return dp[n][target] = subset(nums,n-1,target,dp);
-        }
-        
+        return dp[n][target];
     }
 
     bool canPartition(vector<int>& nums) {
@@ -35,7 +32,7 @@ public:
         }
         int target = (total/2);
         
-        vector<vector<int>> dp(nums.size() + 1, vector<int>(target + 1, -1)); 
+        vector<vector<int>> dp(nums.size() + 1, vector<int>(target + 1, 0)); 
         
         if(total%2 != 0){
             return false;
